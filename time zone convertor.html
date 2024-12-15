@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffe4e1;
+        }
+        .container {
+            text-align: center;
+            background: #fffaf0;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 12px;
+            font-size: 16px;
+            width: 220px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            color: white;
+            background-color: #87ceeb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4682b4;
+        }
+        .output {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #4682b4;">Time Zone Converter</h1>
+        <p style="color: #6a5acd;">Enter the time in 1200h format (e.g., 1230):</p>
+        <input type="text" id="inputTime" placeholder="Enter time (1200 format)">
+        <div class="output" id="outputTime"></div>
+    </div>
+
+    <script>
+        document.getElementById("inputTime").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                convertTime();
+            }
+        });
+
+        function convertTime() {
+            const input = document.getElementById("inputTime").value;
+
+            // Validate input
+            if (!/^\d{4}$/.test(input)) {
+                document.getElementById("outputTime").textContent = "Please enter a valid time in 1200 format.";
+                return;
+            }
+
+            let hours = parseInt(input.slice(0, 2), 10);
+            let minutes = parseInt(input.slice(2), 10);
+
+            if (hours > 23 || minutes > 59) {
+                document.getElementById("outputTime").textContent = "Please enter a valid time in 1200 format.";
+                return;
+            }
+
+            // Add 2 hours and 30 minutes
+            minutes += 30;
+            if (minutes >= 60) {
+                minutes -= 60;
+                hours += 1;
+            }
+            hours += 2;
+            if (hours >= 24) {
+                hours -= 24;
+            }
+
+            // Format output
+            const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            document.getElementById("outputTime").textContent = `Converted Time: ${formattedTime}`;
+        }
+    </script>
+</body>
+</html>
